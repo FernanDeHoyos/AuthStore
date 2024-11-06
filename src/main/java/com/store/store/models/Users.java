@@ -29,7 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Data
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -44,9 +44,12 @@ public class Users implements UserDetails{
     @Column(nullable = false)
     private String lastName;
     
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     
+    @Column(nullable = false, unique = true)
+    private String username;
+   
     @Column(nullable = false)
     private String password;
     
@@ -56,11 +59,13 @@ public class Users implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+       return List.of(new SimpleGrantedAuthority(role.name()));// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public String getUsername() {
-        return null;// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return username;// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    
 }

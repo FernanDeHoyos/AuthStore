@@ -35,6 +35,7 @@ public class AuthService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+                .username(request.getUsername())
                 .password(request.getPassword())
                 .role(Roles.USER)
                 .build();
@@ -42,7 +43,9 @@ public class AuthService {
         userRepository.save(users);
         
         return AuthResponse.builder()
-               .Token(jwtService.getToken(users))
+               .token(jwtService.getToken(users))
                .build();
     }
 }
+
+

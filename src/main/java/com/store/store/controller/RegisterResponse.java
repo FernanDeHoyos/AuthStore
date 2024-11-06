@@ -20,8 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterResponse {
-    private String FirstName;
-    private String LastName;
-    private String Email;
-    private String Password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String username;
+    private String password;
 }
