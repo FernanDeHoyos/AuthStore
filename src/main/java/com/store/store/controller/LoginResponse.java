@@ -1,4 +1,4 @@
-package com.store.store.models;
+package com.store.store.controller;
 
 
 import jakarta.persistence.Column;
@@ -8,8 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import javax.management.ConstructorParameters;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /*
@@ -21,20 +24,16 @@ import lombok.Setter;
  *
  * @author fernan
  */
-@Entity
-@Table(name = "users")
-@Data
-public class Users {
-     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(nullable = false, unique = true)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginResponse {
+    
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role;
+    
 }

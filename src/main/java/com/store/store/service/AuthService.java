@@ -4,39 +4,45 @@
  */
 package com.store.store.service;
 
+
+import com.store.store.controller.AuthResponse;
+import com.store.store.controller.LoginResponse;
+import com.store.store.controller.RegisterResponse;
+import com.store.store.models.Roles;
 import com.store.store.models.Users;
 import com.store.store.repository.UserRepository;
-import java.util.Optional;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fernan
  */
+
 @Service
-public class UserService {
+@RequiredArgsConstructor
+public class AuthService {
+    
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    private final JwtService jwtService;
+    
+    public AuthResponse login(LoginResponse request){
+        return null;
     }
-
-    public Users registerUser(Users user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    public Optional<UserDetails> findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .map(user -> User.builder()
-                        .username(user.getUsername())
-                        .password(user.getPassword())
-                        .roles(user.getRole()) // Asumiendo que `Users` tiene un campo `role`
-                        .build());
+    
+    public AuthResponse register(RegisterResponse request){
+        Users users = Users.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(Roles.USER)
+                .build();
+        
+        userRepository.save(users);
+        
+        return AuthResponse.builder()
+               .Token(jwtService.getToken(users))
+               .build();
     }
 }
