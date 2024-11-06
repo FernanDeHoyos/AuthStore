@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -38,19 +39,22 @@ public class Users implements UserDetails{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(nullable = false)
-    private String firstName;
+    @NotNull(message = "El nombre es obligatorio")
+    private String firstname;
     
-    @Column(nullable = false)
-    private String lastName;
+    @NotNull(message = "El apellido es obligatorio")
+    private String lastname;
     
-    @Column(nullable = false, unique = true)
+    @NotNull(message = "La edad es obligatoria")
+    private Integer age;
+    
+    @NotNull(message = "El email es obligatorio")
     private String email;
     
-    @Column(nullable = false, unique = true)
+    @NotNull(message = "El username es obligatorio")
     private String username;
    
-    @Column(nullable = false)
+   @NotNull(message = "La contraseña es obligatoria")
     private String password;
     
     @Column(nullable = false)

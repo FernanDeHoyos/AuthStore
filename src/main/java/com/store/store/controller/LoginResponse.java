@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import javax.management.ConstructorParameters;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,8 +33,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginResponse {
     
+    @NotBlank(message = "El apellido es obligatorio")
+    @Size(min = 3, max = 50, message = "El username debe tener entre 3 y 50 caracteres")
     private String username;
-
+    
+    @NotBlank(message = "El apellido es obligatorio")
+    @Size(min = 3, max = 50, message = "El apellido debe tener entre 3 y 50 caracteres")
     private String password;
 
     

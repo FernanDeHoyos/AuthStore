@@ -5,6 +5,7 @@
 package com.store.store.controller;
 
 import com.store.store.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +34,7 @@ public class AuthController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> Register(@RequestBody RegisterResponse request) {
+    public ResponseEntity<AuthResponse> Register(@Valid @RequestBody RegisterResponse request) {
         return ResponseEntity.ok(authService.register(request));
     }
 }
