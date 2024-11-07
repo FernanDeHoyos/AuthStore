@@ -35,8 +35,8 @@ public class RegisterResponse {
     private String lastname;
 
     @NotNull(message = "La edad es obligatoria")
-    @Min(value = 18, message = "Age should not be less than 18")
-    @Max(value = 150, message = "Age should not be greater than 150")
+    @Min(value = 18, message = "La edad debe ser mayor a 18 años")
+    @Max(value = 150, message = "La edad debe ser menor a 150 años")
     private int age;
 
     
@@ -51,6 +51,7 @@ public class RegisterResponse {
     private String username;
 
     @NotBlank(message = "El apellido es obligatorio")
-    @Size(min = 3, max = 50, message = "El apellido debe tener entre 3 y 50 caracteres")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 
+         message = "El password debe tener al menos 8 caracteres, incluyendo letras, números y caracteres especiales")
     private String password;
 }
