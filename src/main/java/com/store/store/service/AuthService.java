@@ -12,15 +12,12 @@ import com.store.store.models.Roles;
 import com.store.store.models.Users;
 import com.store.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -35,28 +32,32 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    
+    /**
+     * 
+     * @param request from type LoginResponse
+     * @return token from users authenticate
+     */
     public AuthResponse login(LoginResponse request) {
-     // Intentar autenticar al usuario con el AuthenticationManager 
-       
+        // autenticar al usuario con el AuthenticationManager 
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         // Buscar el usuario en la base de datos
         UserDetails user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         String token = jwtService.getToken(user);  // Generar el token JWT
-        return AuthResponse.builder()  // Retornar la respuesta con el token generado
+        return AuthResponse.builder() // Retornar la respuesta con el token generado
                 .token(token)
                 .build();
-}
+    }
 
-    
-    
-
+    /**
+     * 
+     * @param request form type RegisterResponse
+     * @return token from users authenticate
+     */
     public AuthResponse register(RegisterResponse request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword()); // Encriptar la contraseña
-
         // Verifica si el username ya existe
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new DuplicateResourceException("El nombre de usuario ya existe");
@@ -74,7 +75,6 @@ public class AuthService {
                 .password(encodedPassword) // Usar la contraseña encriptada
                 .role(Roles.USER)
                 .build();
-
         userRepository.save(users);
 
         return AuthResponse.builder()

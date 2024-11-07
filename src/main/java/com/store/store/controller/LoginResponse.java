@@ -38,8 +38,6 @@ public class LoginResponse {
     private String username;
     
     @NotBlank(message = "La contraseña es obligatoria")
-//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 
-//         message = "Contraseña no valida")
     private String password;
 
     

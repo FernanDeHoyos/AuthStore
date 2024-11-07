@@ -28,11 +28,21 @@ public class AplicationConfig {
     
     private final UserRepository userRepository;
     
+    /**
+     * 
+     * @param configuration from type AuthenticationConfiguration
+     * @return getAuthenticationManager
+     * @throws Exception from erros in AuthenticationConfiguration --parameters invalid
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
         return configuration.getAuthenticationManager();
     }
     
+    /**
+     * -- Init the authenticated session
+     * @return daoAuthenticationProvider
+     */
     @Bean //crea,inicializa y configura un objeto
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -41,12 +51,20 @@ public class AplicationConfig {
         return daoAuthenticationProvider;
     }
 
+    /**
+     * 
+     * @return username or message Username not found
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
                 .orElseThrow(() ->  new UsernameNotFoundException("Username not found"));
     }
 
+    /**
+     * 
+     * @return password hashed for database save
+     */
     @Bean
     public  PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
